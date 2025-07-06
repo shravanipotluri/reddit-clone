@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 
-export default function AdminPostItem({ post, onDelete }) {
+export default function AdminPostItem({ post, onDelete, showAlert }) {
   const [deleting, setDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -10,10 +10,12 @@ export default function AdminPostItem({ post, onDelete }) {
     try {
       const result = await onDelete(post._id);
       if (!result.success) {
-        alert(result.error || 'Failed to delete post');
+        if (showAlert) showAlert(result.error || 'Failed to delete post', 'error');
+      } else {
+        if (showAlert) showAlert('Post deleted successfully', 'success');
       }
     } catch (error) {
-      alert('Error deleting post');
+      if (showAlert) showAlert('Error deleting post', 'error');
     } finally {
       setDeleting(false);
       setShowConfirm(false);
@@ -66,34 +68,37 @@ export default function AdminPostItem({ post, onDelete }) {
 
       {/* Delete Confirmation Modal */}
       {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
-            <h3 className="text-lg font-semibold mb-4">Delete Post</h3>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this post? This action cannot be undone.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
-                disabled={deleting}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                disabled={deleting}
-                className={`px-4 py-2 rounded ${
-                  deleting
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-red-600 text-white hover:bg-red-700'
-                }`}
-              >
-                {deleting ? 'Deleting...' : 'Delete'}
-              </button>
+        <>
+          <div className="fixed inset-0 bg-black/10 backdrop-blur-xs flex items-center justify-center z-40"></div>
+          <div className="fixed z-50 inset-0 flex items-center justify-center">
+            <div className="bg-white rounded-lg p-6 max-w-md mx-4">
+              <h3 className="text-lg font-semibold mb-4">Delete Post</h3>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to delete this post? This action cannot be undone.
+              </p>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                  disabled={deleting}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className={`px-4 py-2 rounded ${
+                    deleting
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-red-600 text-white hover:bg-red-700'
+                  }`}
+                >
+                  {deleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

@@ -7,8 +7,14 @@ import { ShieldCheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/ou
 
 export default function AdminDashboard() {
   const { adminPosts, loading, error, deletePost, isAdmin } = useAdmin();
-  const [filter, setFilter] = useState('all'); // all, active, deleted
+  const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (message, type = 'success') => {
+    setAlert({ message, type });
+    setTimeout(() => setAlert(null), 4000);
+  };
 
   if (!isAdmin) {
     return (
@@ -47,6 +53,14 @@ export default function AdminDashboard() {
       <Header />
       
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Alert */}
+        {alert && (
+          <div className={`mb-6 px-4 py-3 rounded-lg font-medium text-center shadow-sm border 
+            ${alert.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-700'}`}
+          >
+            {alert.message}
+          </div>
+        )}
         {/* Header */}
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -127,6 +141,7 @@ export default function AdminDashboard() {
                 key={post._id}
                 post={post}
                 onDelete={deletePost}
+                showAlert={showAlert}
               />
             ))}
           </div>

@@ -15,7 +15,6 @@ class ApiService {
       ...options,
     };
 
-    // Ensure Content-Type is not overridden
     if (config.body) {
       config.headers['Content-Type'] = 'application/json';
     }

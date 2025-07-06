@@ -54,7 +54,6 @@ export const usePosts = () => {
     try {
       const data = await apiService.upvotePost(postId, token);
       
-      // Check if the API returned an error response
       if (data.error) {
         return { success: false, error: data.message };
       }

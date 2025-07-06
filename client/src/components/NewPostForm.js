@@ -26,7 +26,7 @@ export default function NewPostForm({ onSuccess }) {
       });
 
       if (result.error) {
-        setError(result.message || 'Failed to create post');
+        setError(result.error || 'Failed to create post');
       } else {
         setContent('');
         setLink('');

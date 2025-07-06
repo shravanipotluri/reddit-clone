@@ -17,7 +17,6 @@ const Header = ({ onCreatePostClick, onHomeClick, showCreatePost = false }) => {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const userMenuRef = useRef(null);
 
-    // Close user menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
