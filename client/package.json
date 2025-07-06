@@ -1,0 +1,21 @@
+{
+  "name": "react",
+  "version": "1.0.0",
+  "description": "React Project",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "parcel": "^2.15.4",
+    "tailwindcss": "^4.1.11"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^6.20.1"
+  }
+}
